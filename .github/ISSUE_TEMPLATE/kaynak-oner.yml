@@ -1,0 +1,33 @@
+name: "💡 Kaynak öner / Suggest a resource"
+description: Bir alt konuya değerli bir link ekleyelim.
+title: "[Kaynak] "
+labels: ["kaynak-önerisi"]
+body:
+  - type: dropdown
+    id: roadmap
+    attributes:
+      label: Yol haritası / Roadmap
+      options: [Genel E-ticaret, Amazon, Etsy, Shopify, Ara Depo / 3PL, eBay, Zalando, Kaufland, Wayfair]
+    validations: {required: true}
+  - type: input
+    id: topic
+    attributes:
+      label: Modül ve alt konu / Module and subtopic
+      placeholder: "Örn. Modül 03 - Listeleme ve katalog / Varyasyonlar"
+    validations: {required: true}
+  - type: dropdown
+    id: lang
+    attributes:
+      label: Kaynağın dili / Language
+      options: [Türkçe, English]
+    validations: {required: true}
+  - type: input
+    id: url
+    attributes:
+      label: Link
+      placeholder: https://
+    validations: {required: true}
+  - type: textarea
+    id: why
+    attributes:
+      label: Neden değerli? / Why is it useful?

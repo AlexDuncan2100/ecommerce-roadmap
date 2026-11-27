@@ -1,0 +1,10 @@
+{
+  "name": "ecommerce-roadmap",
+  "version": "1.0.0",
+  "private": true,
+  "description": "roadmap.sh tarzı interaktif e-ticaret yol haritaları (TR/EN)",
+  "scripts": {
+    "build": "node src/merge.js && node src/build.js"
+  },
+  "license": "MIT"
+}

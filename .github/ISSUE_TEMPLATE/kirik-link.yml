@@ -1,0 +1,19 @@
+name: "🐛 Kırık link / Broken link"
+description: Açılmayan veya artık ilgisiz bir link bildir.
+title: "[Kırık link] "
+labels: ["kırık-link"]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Kırık link / Broken URL
+    validations: {required: true}
+  - type: input
+    id: where
+    attributes:
+      label: Nerede? / Where?
+      placeholder: "Örn. Amazon > Modül 05 > FBA"
+  - type: input
+    id: replacement
+    attributes:
+      label: Önerilen yeni link (varsa) / Suggested replacement

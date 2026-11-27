@@ -1,0 +1,235 @@
+<title>E-ticaret Yol Haritaları</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: roadmap.sh-style vertical spine; topics on the spine, subtopics branch left/right; side drawer for resources */
+:root{
+  --bg:#ffffff; --fg:#1b1b1b; --muted:#5b5f66; --line:#2b78e4;
+  --topic:#ffe94f; --topic-b:#1b1b1b; --sub:#fff4c7; --sub-b:#3a3a3a;
+  --panel:#ffffff; --panel-b:#e3e5e8; --chip:#f2f3f5; --done:#2e9e5b; --done-bg:#d9f2e3;
+  --t-official:#1f6feb; --t-video:#d1242f; --t-article:#6e40c9; --t-pdf:#9a6700; --t-oss:#1a7f37; --t-course:#0a7ea4;
+  --hand:"Balsamiq Sans", "Comic Sans MS", system-ui, sans-serif; --ui:"Inter", system-ui, -apple-system, Segoe UI, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111315; --fg:#ececec; --muted:#a3a8b0; --line:#5b9bff;
+  --topic:#e8cf2c; --topic-b:#0b0b0b; --sub:#3b3624; --sub-b:#8b8466;
+  --panel:#1a1d21; --panel-b:#2e3237; --chip:#24282d; --done:#4cc985; --done-bg:#163626;
+  --t-official:#6ea8ff; --t-video:#ff7b84; --t-article:#b39dff; --t-pdf:#e3b341; --t-oss:#56d364; --t-course:#4fc3e8; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111315; --fg:#ececec; --muted:#a3a8b0; --line:#5b9bff;
+  --topic:#e8cf2c; --topic-b:#0b0b0b; --sub:#3b3624; --sub-b:#8b8466;
+  --panel:#1a1d21; --panel-b:#2e3237; --chip:#24282d; --done:#4cc985; --done-bg:#163626;
+  --t-official:#6ea8ff; --t-video:#ff7b84; --t-article:#b39dff; --t-pdf:#e3b341; --t-oss:#56d364; --t-course:#4fc3e8; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--ui);line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
+header.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.brand{font-family:var(--hand);font-weight:700;font-size:1.25rem}
+.lang{display:flex;border:2px solid var(--fg);border-radius:8px;overflow:hidden}
+.lang button{font:600 .85rem var(--ui);padding:6px 14px;border:0;background:transparent;color:var(--fg);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+nav.tabs{display:flex;gap:8px;overflow-x:auto;padding:14px 0 6px;scrollbar-width:thin}
+nav.tabs a{flex:0 0 auto;font:500 .88rem var(--ui);padding:7px 12px;border-radius:999px;background:var(--chip);color:var(--fg);text-decoration:none;border:1.5px solid transparent;white-space:nowrap}
+nav.tabs a[aria-current="page"]{border-color:var(--fg);background:var(--topic);color:#111}
+.hero{padding:18px 0 8px;display:grid;gap:10px}
+.hero h1{font-family:var(--hand);font-size:clamp(1.8rem,4.5vw,2.8rem);margin:0;text-wrap:balance;text-align:center}
+.hero p{margin:0 auto;max-width:68ch;text-align:center;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;font-size:.85rem}
+.pill{padding:4px 10px;border-radius:999px;background:var(--chip)}
+.prog{display:flex;align-items:center;gap:8px}
+.bar{width:160px;height:8px;border-radius:99px;background:var(--chip);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--done);width:0}
+.legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:.8rem;color:var(--muted);margin-top:4px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:18px;height:12px;border:1.5px solid var(--topic-b);border-radius:3px;display:inline-block}
+/* Map */
+.map{position:relative;margin:26px 0 10px;overflow-x:auto}
+.map-inner{position:relative;min-width:0}
+.spine{position:absolute;left:50%;top:0;bottom:0;border-left:3px solid var(--line);transform:translateX(-1.5px)}
+.row{position:relative;display:grid;grid-template-columns:1fr minmax(200px,280px) 1fr;align-items:center;gap:0;padding:14px 0}
+.side{display:flex;flex-direction:column;gap:8px;position:relative}
+.side.l{align-items:flex-end;padding-right:34px}
+.side.r{align-items:flex-start;padding-left:34px}
+.side.l::after,.side.r::before{content:"";position:absolute;top:50%;width:34px;border-top:2.5px dashed var(--line)}
+.side.l::after{right:0}.side.r::before{left:0}
+.side:empty::after,.side:empty::before{display:none}
+.node{font-family:var(--hand);cursor:pointer;border-radius:6px;text-align:center;position:relative;transition:transform .12s}
+.node:hover{transform:translateY(-1px)}
+.node:focus-visible{outline:3px solid var(--line);outline-offset:2px}
+.topic{background:var(--topic);border:2.5px solid var(--topic-b);color:#111;padding:12px 14px;font-size:1.02rem;font-weight:700;z-index:1}
+.topic .no{font:600 .7rem var(--ui);letter-spacing:.06em;opacity:.65;display:block;margin-bottom:2px}
+.sub{background:var(--sub);border:2px solid var(--sub-b);color:var(--fg);padding:7px 12px;font-size:.9rem;min-width:170px;max-width:260px}
+.node.done{text-decoration:line-through;text-decoration-thickness:2px}
+.topic.done{background:var(--done-bg);color:var(--fg);border-color:var(--done)}
+.sub.done{background:var(--done-bg);border-color:var(--done)}
+.endcap{display:flex;justify-content:center;padding-top:8px}
+.endcap span{font-family:var(--hand);background:var(--fg);color:var(--bg);padding:6px 14px;border-radius:6px;position:relative;z-index:1}
+@media (max-width:720px){
+  .spine{left:18px}
+  .row{grid-template-columns:1fr;gap:8px;padding:10px 0 10px 38px}
+  .row .side.l{order:2}.row .topic{order:1}.row .side.r{order:3}
+  .side.l,.side.r{align-items:stretch;padding:0 0 0 14px}
+  .side.l::after,.side.r::before{display:none}
+  .sub{max-width:none}
+  .side:empty{display:none}
+}
+/* Lists below */
+section.block{margin-top:34px}
+section.block h2{font-family:var(--hand);font-size:1.35rem;margin:0 0 12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.cheat{border:2px solid var(--fg);border-radius:8px;padding:14px 16px;background:var(--panel)}
+.cheat h3{margin:0 0 8px;font:700 .95rem var(--ui)}
+.cheat ul{margin:0;padding-left:18px;font-size:.9rem}
+.cheat li{margin:3px 0}
+/* Resources */
+.res{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.res li{display:flex;gap:10px;align-items:flex-start;min-width:0}
+.res a{color:var(--fg);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--muted);word-break:break-word}
+.res a:hover{text-decoration-color:var(--fg)}
+.tag{flex:0 0 auto;font:600 .68rem var(--ui);letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px;border:1.5px solid currentColor;margin-top:2px;min-width:64px;text-align:center}
+.tag.official{color:var(--t-official)}.tag.video{color:var(--t-video)}.tag.article{color:var(--t-article)}.tag.pdf{color:var(--t-pdf)}.tag.oss{color:var(--t-oss)}.tag.course{color:var(--t-course)}
+/* Drawer */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20}
+aside.drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--panel);border-left:1px solid var(--panel-b);z-index:21;overflow-y:auto;padding:calc(20px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) calc(28px + env(safe-area-inset-bottom,0px)) 22px;box-shadow:-8px 0 30px rgba(0,0,0,.18)}
+.dhead{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:6px}
+.dhead .x{border:0;background:var(--chip);color:var(--fg);border-radius:6px;padding:6px 10px;cursor:pointer;font:600 .85rem var(--ui)}
+.dbtn{border:2px solid var(--done);background:transparent;color:var(--done);border-radius:6px;padding:6px 12px;font:600 .85rem var(--ui);cursor:pointer}
+.dbtn[aria-pressed="true"]{background:var(--done);color:var(--bg)}
+aside h2{font-family:var(--hand);font-size:1.6rem;margin:6px 0 8px;text-wrap:balance}
+aside .sublist{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px}
+aside .sublist span,aside .sublist a{background:var(--sub);border:1.5px solid var(--sub-b);border-radius:5px;padding:3px 9px;font:.85rem var(--hand)}
+aside h3{font:700 .8rem var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+.note{font-size:.8rem;color:var(--muted);margin-top:24px}
+footer{margin-top:40px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){.node{transition:none}}
+.subh{display:block!important;list-style:none;margin:14px 0 4px;padding:0;border-radius:8px;transition:background .6s}.subh h4{margin:0 0 6px;font:600 .9rem var(--ui)}.subh h4 small{font-weight:500;color:var(--muted);margin-left:4px}.subh.flash{background:var(--sub)}#d-res{padding:0}#d-subs a{cursor:pointer;text-decoration:none;color:inherit}
+.hdr-r{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.gh{display:inline-flex;gap:6px;align-items:center;font:600 .85rem var(--ui);padding:6px 12px;border:2px solid var(--fg);border-radius:8px;color:var(--fg);text-decoration:none}.gh:hover{background:var(--topic);color:#1b1b1b}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand" id="brand">E-ticaret Yol Haritaları</div>
+    <div class="hdr-r">
+      <a class="gh" id="gh" href="https://github.com/AlexDuncan2100/ecommerce-roadmap" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg><span id="gh-t">GitHub'da yıldız ver</span></a>
+      <div class="lang" role="group" aria-label="Dil / Language">
+        <button id="lang-tr" type="button" aria-pressed="true">Türkçe</button>
+        <button id="lang-en" type="button" aria-pressed="false">English</button>
+      </div>
+    </div>
+  </header>
+  <nav class="tabs" id="tabs" aria-label="Roadmaps"></nav>
+  <div class="hero">
+    <h1 id="title"></h1>
+    <p id="intro"></p>
+    <div class="meta">
+      <span class="pill" id="duration"></span>
+      <span class="prog"><span class="bar"><i id="barfill"></i></span><span id="progtxt"></span></span>
+    </div>
+    <div class="legend" id="legend"></div>
+  </div>
+  <div class="map"><div class="map-inner" id="map"></div></div>
+  <section class="block"><h2 id="h-cheat"></h2><div class="cards" id="cheat"></div></section>
+  <section class="block"><h2 id="h-yt"></h2><ul class="res" id="yt"></ul></section>
+  <section class="block"><h2 id="h-auth"></h2><ul class="res" id="auth"></ul></section>
+  <footer id="foot"></footer>
+</div>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-modal="true" role="dialog" aria-labelledby="d-title">
+  <div class="dhead"><button class="dbtn" id="d-done" type="button" aria-pressed="false"></button><button class="x" id="d-close" type="button"></button></div>
+  <div class="no" id="d-no" style="font:600 .75rem var(--ui);color:var(--muted);letter-spacing:.06em"></div>
+  <h2 id="d-title"></h2>
+  <p id="d-desc"></p>
+  <div class="sublist" id="d-subs"></div>
+  <h3 id="d-h-res"></h3>
+  <ul class="res" id="d-res"></ul>
+  <p class="note" id="d-note"></p>
+</aside>
+
+<script>
+/*__DATA__*/
+/*__CHEAT__*/
+/*__SUBRES__*/
+const UI = {
+  tr: {brand:"E-ticaret Yol Haritaları", dur:"Süre", prog:(d,t)=>`${d}/${t} modül tamamlandı`, cheat:"Cheat sheet: akılda tutulacaklar",
+       yt:"Resmi ve popüler YouTube kanalları", auth:"Otorite öğrenme kaynakları", done:"Tamamlandı olarak işaretle", undone:"Tamamlandı ✓", close:"Kapat",
+       res:"Alt konulara göre kaynaklar", more:"Genel modül kaynakları", none:"Bu alt konu için ayrı kaynak yok; aşağıdaki genel modül kaynaklarına bakın.", mod:"MODÜL", legendT:"Ana modül", legendS:"Alt konu", end:"Bitti! Sonraki haritaya geçin",
+       note:"Bu modülün tüm kaynakları Türkçedir. Tamamlandı işareti yalnızca bu tarayıcıda saklanır.",
+       foot:"Linkler 27 Kasım 2026'da web aramasıyla doğrulandı. Süreler tahmindir. Tamamlanma durumu yalnızca bu tarayıcıda saklanır.", gh:"GitHub'da yıldız ver",
+       types:{official:"Resmi",video:"Video",article:"Makale",pdf:"PDF",oss:"Açık kaynak",course:"Kurs"}},
+  en: {brand:"E-commerce Roadmaps", dur:"Duration", prog:(d,t)=>`${d}/${t} modules done`, cheat:"Cheat sheet: key things to remember",
+       yt:"Official and popular YouTube channels", auth:"Authoritative learning resources", done:"Mark as done", undone:"Done ✓", close:"Close",
+       res:"Resources by subtopic", more:"General module resources", none:"No separate resource for this subtopic; see the general module resources below.", mod:"MODULE", legendT:"Main module", legendS:"Subtopic", end:"Done! Move to the next roadmap",
+       note:"All resources for this module are in English. Progress is saved in this browser only.",
+       foot:"Links verified by web search on 27 November 2026. Durations are estimates. Progress is saved in this browser only.", gh:"Star on GitHub",
+       types:{official:"Official",video:"Video",article:"Article",pdf:"PDF",oss:"Open source",course:"Course"}}
+};
+const store = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}} };
+let lang = store.get("rm-lang") === "en" ? "en" : "tr";
+let done = {}; try{ done = JSON.parse(store.get("rm-done")||"{}")||{} }catch(e){ done = {} }
+let current = ROADMAPS[0].id, openIdx = null;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const rm = () => ROADMAPS.find(r => r.id === current);
+const key = (i) => `${current}:${i}`;
+function resList(arr){ const t = UI[lang].types; return arr.map(([l,u,ty]) => `<li><span class="tag ${ty}">${t[ty]||ty}</span><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a></li>`).join(""); }
+function render(){
+  const r = rm(), u = UI[lang];
+  document.documentElement.lang = lang;
+  $("brand").textContent = u.brand;
+  $("lang-tr").setAttribute("aria-pressed", lang==="tr"); $("lang-en").setAttribute("aria-pressed", lang==="en");
+  $("tabs").innerHTML = ROADMAPS.map(x => `<a href="#${x.id}" ${x.id===current?'aria-current="page"':''}>${esc(x.title[lang])}</a>`).join("");
+  $("title").textContent = r.title[lang];
+  $("intro").textContent = r.intro[lang];
+  $("duration").textContent = `${u.dur}: ${r.duration[lang]}`;
+  const n = r.modules.length, d = r.modules.filter((_,i)=>done[key(i)]).length;
+  $("barfill").style.width = (d/n*100)+"%"; $("progtxt").textContent = u.prog(d,n);
+  $("legend").innerHTML = `<span><i class="sw" style="background:var(--topic)"></i>${u.legendT}</span><span><i class="sw" style="background:var(--sub);border-color:var(--sub-b)"></i>${u.legendS}</span><span><i class="sw" style="background:var(--done-bg);border-color:var(--done)"></i>${u.undone.replace(" ✓","")}</span>`;
+  let h = '<div class="spine"></div>';
+  r.modules.forEach((m,i) => {
+    const subs = m.subs[lang].map((s,k) => `<div class="node sub${done[key(i)]?' done':''}" tabindex="0" role="button" data-i="${i}" data-k="${k}">${esc(s)}</div>`).join("");
+    const left = i%2===0 ? subs : "", right = i%2===1 ? subs : "";
+    h += `<div class="row"><div class="side l">${left}</div><div class="node topic${done[key(i)]?' done':''}" tabindex="0" role="button" data-i="${i}"><span class="no">${u.mod} ${String(i+1).padStart(2,"0")}</span>${esc(m.title[lang])}</div><div class="side r">${right}</div></div>`;
+  });
+  h += `<div class="endcap"><span>${u.end}</span></div>`;
+  $("map").innerHTML = h;
+  $("h-cheat").textContent = u.cheat;
+  const cs = (CHEAT[r.id]||{})[lang] || [];
+  $("cheat").innerHTML = cs.map(c => `<div class="cheat"><h3>${esc(c.h)}</h3><ul>${c.items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
+  $("cheat").parentElement.hidden = cs.length===0;
+  $("h-yt").textContent = u.yt; $("yt").innerHTML = resList(r.channels[lang]);
+  $("h-auth").textContent = u.auth; $("auth").innerHTML = resList(r.authorities[lang]);
+  $("foot").textContent = u.foot; $("gh-t").textContent = u.gh;
+  $("d-close").textContent = u.close;
+  if (openIdx !== null) fillDrawer(openIdx);
+}
+function fillDrawer(i){
+  const m = rm().modules[i], u = UI[lang], isDone = !!done[key(i)];
+  $("d-no").textContent = `${u.mod} ${String(i+1).padStart(2,"0")} · ${rm().title[lang]}`;
+  $("d-title").textContent = m.title[lang];
+  $("d-desc").textContent = m.desc[lang];
+  $("d-subs").innerHTML = m.subs[lang].map((s,k)=>`<a href="javascript:void 0" data-k="${k}">${esc(s)}</a>`).join("");
+  $("d-h-res").textContent = u.res;
+  const sr = (SUBRES[current]||[])[i]; let rh = "";
+  if (sr) { const L = sr[lang];
+    m.subs[lang].forEach((s,k) => { const a = L.subs[k]||[]; rh += `<li class="subh" id="sub-${k}"><h4>${k+1}. ${esc(s)} <small>${a.length}</small></h4>${a.length ? `<ul class="res">${resList(a)}</ul>` : `<p class="note">${u.none}</p>`}</li>`; });
+    if (L.rest.length) rh += `<li class="subh"><h4>${u.more} <small>${L.rest.length}</small></h4><ul class="res">${resList(L.rest)}</ul></li>`;
+  } else rh = resList(m.res[lang]);
+  $("d-res").innerHTML = rh;
+  $("d-note").textContent = u.note;
+  const b = $("d-done"); b.setAttribute("aria-pressed", isDone); b.textContent = isDone ? u.undone : u.done;
+}
+function openDrawer(i,k){ openIdx = i; fillDrawer(i); $("drawer").hidden = false; $("scrim").hidden = false; $("drawer").scrollTop = 0; if (k!=null) { const el = document.getElementById("sub-"+k); if (el) { el.scrollIntoView({block:"start"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"),1200); } } else $("d-close").focus(); }
+function closeDrawer(){ openIdx = null; $("drawer").hidden = true; $("scrim").hidden = true; }
+$("map").addEventListener("click", e => { const n = e.target.closest(".node"); if(n) openDrawer(+n.dataset.i, n.dataset.k!=null ? +n.dataset.k : null); });
+$("map").addEventListener("keydown", e => { if((e.key==="Enter"||e.key===" ") && e.target.classList.contains("node")){ e.preventDefault(); openDrawer(+e.target.dataset.i, e.target.dataset.k!=null ? +e.target.dataset.k : null);} });
+$("d-subs").addEventListener("click", e => { const a = e.target.closest("a[data-k]"); if (!a) return; e.preventDefault(); const el = document.getElementById("sub-"+a.dataset.k); if (el) el.scrollIntoView({block:"start", behavior:"smooth"}); });
+$("d-close").onclick = closeDrawer; $("scrim").onclick = closeDrawer;
+document.addEventListener("keydown", e => { if(e.key==="Escape" && openIdx!==null) closeDrawer(); });
+$("d-done").onclick = () => { const k = key(openIdx); if(done[k]) delete done[k]; else done[k]=1; store.set("rm-done", JSON.stringify(done)); render(); };
+$("lang-tr").onclick = () => { lang="tr"; store.set("rm-lang","tr"); render(); };
+$("lang-en").onclick = () => { lang="en"; store.set("rm-lang","en"); render(); };
+function route(){ const h = location.hash.replace("#",""); if (ROADMAPS.some(r=>r.id===h)) current = h; else current = ROADMAPS[0].id; closeDrawer(); render(); }
+window.addEventListener("hashchange", route);
+/*__INIT__*/
+route();
+</script>
